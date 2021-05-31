@@ -1,7 +1,6 @@
 {
 	"name": "show-hey",
 	"homepage": "http://ultimatekiwi.github.io/show-hey",
-	// "proxy": "https://mlb21.theshow.com/apis",
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {
