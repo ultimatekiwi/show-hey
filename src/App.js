@@ -1,5 +1,6 @@
 import React from "react";
 import * as axios from "axios";
+import Table from "./components/Table";
 
 class App extends React.Component {
   constructor(props) {
@@ -9,6 +10,8 @@ class App extends React.Component {
       rowData: [],
     };
   }
+
+
 
   getItems() {
     axios
@@ -47,7 +50,7 @@ class App extends React.Component {
   getListings() {
     axios
       .get(
-        "https://cors-anywhere.herokuapp.com/https://mlb21.theshow.com/apis/items.json"
+        "https://cors-anywhere.herokuapp.com/https://mlb21.theshow.com/apis/items.json?type=stadium&page=1"
       )
       .then((response) => {
         this.setState({
@@ -60,13 +63,24 @@ class App extends React.Component {
       });
   }
 
+  testData() {
+    const exampleData = require('./data/sample.json')
+
+    this.setState({
+      rowData: exampleData,
+    });
+  }
+
   componentDidMount() {
     // this.getListings();
-    this.getItems();
+    // this.getItems();
+    this.testData();
   }
 
   render() {
-    return <div className="App"></div>;
+    return <div className="App">
+      <Table rowData={this.state.rowData} />
+    </div>;
   }
 }
 
