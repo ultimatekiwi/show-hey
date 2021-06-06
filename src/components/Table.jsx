@@ -28,8 +28,6 @@ export default class Table extends Component {
   
 
   render() {
-    const rowData = this.props.rowData;
-
     // const tableRows = rowData.items.map(())
 
     return (

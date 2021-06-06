@@ -1,19 +1,37 @@
 import React from "react";
 import * as axios from "axios";
-import Table from "./components/Table";
+import styled from "styled-components";
+import { useTable } from "react-table";
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
+const Styles = styled.div`
+  padding: 1rem;
 
-    this.state = {
-      rowData: [],
-    };
+  table {
+    border-spacing: 0;
+    border: 1px solid black;
+
+    tr {
+      :last-child {
+        td {
+          border-bottom: 0;
+        }
+      }
+    }
+
+    th,
+    td {
+      margin: 0;
+      padding: 0.5rem;
+      border-bottom: 1px solid black;
+      border-right: 1px solid black;
+
+      :last-child {
+        border-right: 0;
+      }
+    }
   }
-
-
-
-  getItems() {
+`
+getItems() {
     axios
       .get(
         "https://cors-anywhere.herokuapp.com/https://mlb21.theshow.com/apis/items.json"
@@ -27,27 +45,9 @@ class App extends React.Component {
         console.log(response.statusTest);
         console.log(response.headers);
       });
-  }					
+  }
 
-
-
-
-
-//   getItems() {
-//     axios({
-//       method: "get",
-//       //   url: "https://mlb21.theshow.com/apis/items",
-//       url: "/items.json?type=stadium&page=1",
-//       headers: {
-//         "content-type": "application/json",
-//         accept: "application/json",
-//       },
-//     })
-//       .then((res) => console.log(res.data))
-//       .catch((err) => console.error(err));
-//   }
-
-  getListings() {
+  getStadiums() {
     axios
       .get(
         "https://cors-anywhere.herokuapp.com/https://mlb21.theshow.com/apis/items.json?type=stadium&page=1"
@@ -63,25 +63,25 @@ class App extends React.Component {
       });
   }
 
+
   testData() {
-    const exampleData = require('./data/sample.json')
+    const exampleData = require("./data/sample.json");
 
     this.setState({
       rowData: exampleData,
     });
   }
 
-  componentDidMount() {
-    // this.getListings();
-    // this.getItems();
-    this.testData();
-  }
 
-  render() {
-    return <div className="App">
-      <Table rowData={this.state.rowData} />
-    </div>;
-  }
+function App() {
+
+  const stadiums = require("./data/stadiums.json");
+
+    return (
+      <div className="App">
+        <Table rowData={this.state.rowData} />
+      </div>
+    );
 }
 
 export default App;
