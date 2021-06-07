@@ -7,8 +7,12 @@ const instance = axios.create({
   baseURL: "https://cors-anywhere.herokuapp.com/https://mlb21.theshow.com/apis",
 });
 
-const baseURL =
+const corsURL =
   "https://cors-anywhere.herokuapp.com/https://mlb21.theshow.com/apis";
+
+const showURL = "https://mlb21.theshow.com/apis";
+
+
 
 const Styles = styled.div`
   padding: 1rem;
@@ -101,7 +105,7 @@ function Table({ columns, data }) {
     {
       columns,
       data,
-      initialState: { pageIndex: 0 },
+      initialState: { pageIndex: 0, pageSize:25 },
     },
     usePagination
   );
@@ -190,7 +194,7 @@ function Table({ columns, data }) {
             setPageSize(Number(e.target.value));
           }}
         >
-          {[10, 20, 30, 40, 50].map((pageSize) => (
+          {[10, 25, 50].map((pageSize) => (
             <option key={pageSize} value={pageSize}>
               Show {pageSize}
             </option>
@@ -218,10 +222,13 @@ function Table({ columns, data }) {
 
 function App() {
   const [data, setData] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+
 
   useEffect(() => {
     instance.get("/items.json?type=stadium&page=1").then((res) => {
-      console.log(res);
+      console.log(res.data);
+
       const items = res.data.items; 
       setData(items);
     });
@@ -236,6 +243,8 @@ function App() {
   //   []
   // )
 
+
+  
   const columns = React.useMemo(
     () => [
       {
