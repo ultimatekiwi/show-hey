@@ -1,7 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as axios from "axios";
 import styled from "styled-components";
 import { useTable, usePagination } from "react-table";
+
+const instance = axios.create({
+  baseURL: "https://cors-anywhere.herokuapp.com/https://mlb21.theshow.com/apis",
+});
+
+const baseURL =
+  "https://cors-anywhere.herokuapp.com/https://mlb21.theshow.com/apis";
 
 const Styles = styled.div`
   padding: 1rem;
@@ -194,10 +201,35 @@ function Table({ columns, data }) {
   );
 }
 
-function App() {
-  const stadiums = require("./data/stadiums.json");
+// function getItems(url) {
+//   instance({
+//     'method':'GET',
+//     'url':'/items.json',
+//     'params': {
+//       'type':'stadium',
+//       'page':'1'
+//     },
+//   })
+//   .then((response) => {
+//     console.log(response);
+//     return response.data;
+//   }
+// }
 
-  const data = React.useMemo(() => stadiums.items, [])
+function App() {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    instance.get("/items.json?type=stadium&page=1").then((res) => {
+      console.log(res);
+      const items = res.data.items; 
+      setData(items);
+    });
+  }, []);
+
+  // const stadiums = require("./data/stadiums.json");
+  // const data = React.useMemo(() => stadiums.items, [])
+
   // const data = React.useMemo(
   //   () =>
   //   stadiums.items,
@@ -228,12 +260,11 @@ function App() {
 
   // const tableInstance = useTable({ columns, data })
 
-
   return (
     <Styles>
-    {/* <div className="App"> */}
+      {/* <div className="App"> */}
       <Table columns={columns} data={data} />
-    {/* </div> */}
+      {/* </div> */}
     </Styles>
   );
 }
